@@ -1,0 +1,58 @@
+[
+    {
+        "title": "FOMC Meeting Minutes",
+        "currency": "USD",
+        "date": "10-08-2025",
+        "time": "21:26",
+        "impact": "High",
+        "forecast": null,
+        "previous": null,
+        "url": "https://www.forexfactory.com/calendar/304-us-fomc-meeting-minutes",
+        "sessions": [
+            "New York"
+        ]
+    },
+    {
+        "title": "Unemployment Claims",
+        "currency": "USD",
+        "date": "10-09-2025",
+        "time": "15:59",
+        "impact": "High",
+        "forecast": "227K",
+        "previous": null,
+        "url": "https://www.forexfactory.com/calendar/11-us-unemployment-claims",
+        "sessions": [
+            "London"
+        ]
+    },
+    {
+        "title": "Prelim UoM Consumer Sentiment",
+        "currency": "USD",
+        "date": "10-10-2025",
+        "time": "17:26",
+        "impact": "High",
+        "forecast": "54.1",
+        "previous": "55.4",
+        "url": "https://www.forexfactory.com/calendar/53-us-prelim-uom-consumer-sentiment",
+        "sessions": [
+            "London",
+            "New York",
+            "Golden Time"
+        ]
+    },
+    {
+        "title": "Prelim UoM Inflation Expectations",
+        "currency": "USD",
+        "date": "10-10-2025",
+        "time": "17:26",
+        "impact": "High",
+        "forecast": null,
+        "previous": "4.8%",
+        "url": "https://www.forexfactory.com/calendar/236-us-prelim-uom-inflation-expectations",
+        "sessions": [
+            "London",
+            "New York",
+            "Golden Time"
+        ]
+    }
+]
