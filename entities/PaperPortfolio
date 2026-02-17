@@ -1,0 +1,27 @@
+{
+  "name": "PaperPortfolio",
+  "type": "object",
+  "properties": {
+    "balance": {
+      "type": "number",
+      "default": 10000
+    },
+    "initial_balance": {
+      "type": "number",
+      "default": 10000
+    },
+    "total_trades": {
+      "type": "number",
+      "default": 0
+    },
+    "winning_trades": {
+      "type": "number",
+      "default": 0
+    },
+    "total_profit": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": []
+}

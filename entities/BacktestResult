@@ -1,0 +1,72 @@
+{
+  "name": "BacktestResult",
+  "type": "object",
+  "properties": {
+    "strategy_name": {
+      "type": "string",
+      "description": "Name of the strategy"
+    },
+    "currency_pair": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "initial_balance": {
+      "type": "number"
+    },
+    "final_balance": {
+      "type": "number"
+    },
+    "total_trades": {
+      "type": "number"
+    },
+    "winning_trades": {
+      "type": "number"
+    },
+    "losing_trades": {
+      "type": "number"
+    },
+    "win_rate": {
+      "type": "number"
+    },
+    "profit_factor": {
+      "type": "number"
+    },
+    "max_drawdown": {
+      "type": "number"
+    },
+    "trades": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "entry_price": {
+            "type": "number"
+          },
+          "exit_price": {
+            "type": "number"
+          },
+          "profit": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "strategy_name",
+    "currency_pair"
+  ]
+}

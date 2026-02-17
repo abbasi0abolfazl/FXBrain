@@ -1,0 +1,50 @@
+{
+  "name": "EconomicEvent",
+  "type": "object",
+  "properties": {
+    "country": {
+      "type": "string",
+      "description": "Country code (USD, EUR, GBP, etc.)"
+    },
+    "event_name": {
+      "type": "string",
+      "description": "Name of the economic event"
+    },
+    "importance": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Event importance level"
+    },
+    "event_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled event time"
+    },
+    "actual_value": {
+      "type": "string",
+      "description": "Actual released value"
+    },
+    "forecast_value": {
+      "type": "string",
+      "description": "Forecasted value"
+    },
+    "previous_value": {
+      "type": "string",
+      "description": "Previous period value"
+    },
+    "volatility_score": {
+      "type": "number",
+      "description": "Expected volatility score 0-10"
+    }
+  },
+  "required": [
+    "country",
+    "event_name",
+    "event_time",
+    "importance"
+  ]
+}

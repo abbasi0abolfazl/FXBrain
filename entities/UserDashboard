@@ -1,0 +1,45 @@
+{
+  "name": "UserDashboard",
+  "type": "object",
+  "properties": {
+    "widgets": {
+      "type": "array",
+      "description": "User's dashboard widgets configuration",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "w": {
+            "type": "number"
+          },
+          "h": {
+            "type": "number"
+          },
+          "visible": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "theme": {
+      "type": "string",
+      "enum": [
+        "dark",
+        "light"
+      ],
+      "default": "dark"
+    }
+  },
+  "required": []
+}

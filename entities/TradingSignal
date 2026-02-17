@@ -1,0 +1,58 @@
+{
+  "name": "TradingSignal",
+  "type": "object",
+  "properties": {
+    "currency_pair": {
+      "type": "string"
+    },
+    "signal_type": {
+      "type": "string",
+      "enum": [
+        "buy",
+        "sell",
+        "hold"
+      ]
+    },
+    "entry_price": {
+      "type": "number"
+    },
+    "take_profit": {
+      "type": "number"
+    },
+    "stop_loss": {
+      "type": "number"
+    },
+    "confidence": {
+      "type": "number",
+      "description": "0-100 confidence level"
+    },
+    "analysis_summary": {
+      "type": "string"
+    },
+    "based_on": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "hit_tp",
+        "hit_sl",
+        "expired"
+      ],
+      "default": "active"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "currency_pair",
+    "signal_type",
+    "entry_price"
+  ]
+}

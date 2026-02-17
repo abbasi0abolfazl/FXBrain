@@ -1,0 +1,52 @@
+{
+  "name": "UserAlert",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Alert name"
+    },
+    "currency_pair": {
+      "type": "string",
+      "description": "Currency pair (EURUSD, GBPUSD, etc.)"
+    },
+    "condition_type": {
+      "type": "string",
+      "enum": [
+        "price_above",
+        "price_below",
+        "rsi_above",
+        "rsi_below",
+        "news_high_impact"
+      ],
+      "description": "Type of condition"
+    },
+    "condition_value": {
+      "type": "number",
+      "description": "Threshold value"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether alert is active"
+    },
+    "triggered_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the alert was last triggered"
+    },
+    "notification_channels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Notification channels (web, telegram, email)"
+    }
+  },
+  "required": [
+    "name",
+    "currency_pair",
+    "condition_type",
+    "condition_value"
+  ]
+}

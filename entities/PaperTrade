@@ -1,0 +1,53 @@
+{
+  "name": "PaperTrade",
+  "type": "object",
+  "properties": {
+    "currency_pair": {
+      "type": "string"
+    },
+    "trade_type": {
+      "type": "string",
+      "enum": [
+        "buy",
+        "sell"
+      ]
+    },
+    "entry_price": {
+      "type": "number"
+    },
+    "exit_price": {
+      "type": "number"
+    },
+    "quantity": {
+      "type": "number"
+    },
+    "take_profit": {
+      "type": "number"
+    },
+    "stop_loss": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "closed",
+        "cancelled"
+      ],
+      "default": "open"
+    },
+    "profit_loss": {
+      "type": "number"
+    },
+    "closed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "currency_pair",
+    "trade_type",
+    "entry_price",
+    "quantity"
+  ]
+}

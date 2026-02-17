@@ -1,0 +1,67 @@
+{
+  "name": "NewsArticle",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "News headline"
+    },
+    "summary": {
+      "type": "string",
+      "description": "AI-generated summary and analysis"
+    },
+    "bullet_points": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Key points summarized"
+    },
+    "source": {
+      "type": "string",
+      "description": "News source (ForexFactory, Investing.com, etc.)"
+    },
+    "impact_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Expected market impact"
+    },
+    "sentiment": {
+      "type": "string",
+      "enum": [
+        "positive",
+        "negative",
+        "neutral"
+      ],
+      "description": "Overall sentiment analysis"
+    },
+    "sentiment_score": {
+      "type": "number",
+      "description": "-100 to 100 sentiment score"
+    },
+    "predicted_direction": {
+      "type": "string",
+      "description": "Predicted market direction (bullish/bearish on specific currencies)"
+    },
+    "currency_pairs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Affected currency pairs"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Original publish time"
+    }
+  },
+  "required": [
+    "title",
+    "impact_level"
+  ]
+}
