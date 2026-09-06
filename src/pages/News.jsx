@@ -20,9 +20,8 @@ import {
   getPredictionColor,
   getFilterButtonStyle 
 } from '@/theme/colors';
+import { API_BASE_URL } from '@/config/api';
 
-// API base URL
-const API_BASE_URL = 'http://localhost:8000';
 
 // API service functions
 const apiService = {

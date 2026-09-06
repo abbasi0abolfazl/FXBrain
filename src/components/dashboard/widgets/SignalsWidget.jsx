@@ -5,9 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { TrendingUp, TrendingDown, Target, Shield, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-
-// API base URL
-const API_BASE_URL = 'http://localhost:8000';
+import { API_BASE_URL } from '@/config/api';
 
 // API service for signals
 const signalsService = {

@@ -6,9 +6,8 @@ import { Bell, BellOff, Globe, MessageCircle, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import moment from 'moment';
+import { API_BASE_URL } from '@/config/api';
 
-// API base URL
-const API_BASE_URL = 'http://localhost:8000';
 
 // API service for alerts
 const alertsService = {

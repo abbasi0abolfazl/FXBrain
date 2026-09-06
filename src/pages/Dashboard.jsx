@@ -17,9 +17,8 @@ import ChartWidget from '@/components/dashboard/widgets/ChartWidget';
 import SignalsWidget from '@/components/dashboard/widgets/SignalsWidget';
 import StatsCard from '@/components/dashboard/StatsCard';
 import moment from 'moment';
+import { API_BASE_URL } from '@/config/api';
 
-// API base URL
-const API_BASE_URL = 'http://localhost:8000';
 
 // Map آیکون‌ها
 const iconMap = {

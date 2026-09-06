@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from typing import List, Dict, Optional, Any
 from pydantic import BaseModel
 from enum import Enum
+import os
 import jwt
 import random
 
@@ -16,9 +17,9 @@ import random
 # Configuration
 # ============================================================================
 
-SECRET_KEY = "your-secret-key-here-change-in-production"
+SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-here-change-in-production")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "1440"))
 
 app = FastAPI(
     title="FX Brain API",
@@ -26,10 +27,27 @@ app = FastAPI(
 )
 
 # CORS middleware configuration
+env_origins = os.getenv("ALLOWED_ORIGINS", "").strip()
+if env_origins == "*":
+    cors_origins = ["*"]
+    allow_credentials = False
+elif env_origins:
+    cors_origins = [orig.strip() for orig in env_origins.split(",") if orig.strip()]
+    allow_credentials = True
+else:
+    cors_origins = [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:3000",
+    ]
+    allow_credentials = True
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_origin_regex=r"https://.*\.pages\.dev" if not env_origins else None,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -761,6 +779,27 @@ def get_user_from_token(token: str) -> Optional[Dict]:
         return next((u for u in sample_data.users if u["id"] == user_id), None)
     except (jwt.ExpiredSignatureError, jwt.InvalidTokenError, ValueError):
         return None
+
+
+# ============================================================================
+# Health & Root Endpoints
+# ============================================================================
+
+@app.get("/")
+async def root():
+    """Root endpoint for ping and basic status."""
+    return {
+        "status": "online",
+        "service": "FX Brain API",
+        "version": "1.0.0",
+        "docs": "/docs"
+    }
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Render, Koyeb, and uptime monitors."""
+    return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
 
 
 # ============================================================================
@@ -1649,4 +1688,5 @@ async def get_dashboard_stats():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run(app, host="0.0.0.0", port=port)

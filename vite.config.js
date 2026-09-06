@@ -15,5 +15,17 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src') 
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-ui': ['lucide-react', 'framer-motion', '@tanstack/react-query'],
+          'vendor-charts': ['recharts']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
   }
 })

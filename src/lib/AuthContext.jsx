@@ -2,9 +2,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const AuthContext = createContext();
+import { API_BASE_URL } from '@/config/api';
 
-const API_BASE_URL = 'http://localhost:8000';
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

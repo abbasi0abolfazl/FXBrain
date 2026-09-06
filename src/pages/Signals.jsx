@@ -8,9 +8,8 @@ import { Zap, Filter, Crown, TrendingUp, TrendingDown, Clock } from 'lucide-reac
 import SignalCard from '@/components/signals/SignalCard';
 import MarketTicker from '@/components/dashboard/MarketTicker';
 import moment from 'moment';
+import { API_BASE_URL } from '@/config/api';
 
-// API base URL
-const API_BASE_URL = 'http://localhost:8000';
 
 // API service for signals
 const signalsService = {

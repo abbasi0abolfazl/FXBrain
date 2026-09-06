@@ -9,9 +9,8 @@ import AlertCard from '@/components/alerts/AlertCard';
 import CreateAlertModal from '@/components/alerts/CreateAlertModal';
 import MarketTicker from '@/components/dashboard/MarketTicker';
 import moment from 'moment';
+import { API_BASE_URL } from '@/config/api';
 
-// API base URL
-const API_BASE_URL = 'http://localhost:8000';
 
 // API service for alerts
 const alertsService = {

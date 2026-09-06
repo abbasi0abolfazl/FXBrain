@@ -2,9 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TrendingUp, TrendingDown } from 'lucide-react';
-
-// API base URL
-const API_BASE_URL = 'http://localhost:8000';
+import { API_BASE_URL } from '@/config/api';
 
 // Simple chart component (می‌توانید از کتابخانه‌های حرفه‌ای مانند recharts استفاده کنید)
 const SimpleChart = ({ data, pair }) => {

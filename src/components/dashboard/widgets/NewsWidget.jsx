@@ -6,9 +6,8 @@ import { Clock, Newspaper } from 'lucide-react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import { API_BASE_URL } from '@/config/api';
 
-// API base URL
-const API_BASE_URL = 'http://localhost:8000';
 
 // API service for news
 const newsService = {

@@ -29,8 +29,7 @@ import {
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Switch } from '@/components/ui/switch';
-
-const API_BASE_URL = 'http://localhost:8000';
+import { API_BASE_URL } from '@/config/api';
 
 // سرویس حساب کاربری
 const accountService = {
