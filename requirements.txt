@@ -1,0 +1,3 @@
+# Frontend build on Cloudflare Pages
+# Python dependencies are not needed for the frontend.
+# Backend dependencies are located in api/requirements.txt
