@@ -76,23 +76,39 @@ export default function MarketTicker() {
     return () => clearInterval(interval);
   }, []);
 
-  // آماده‌سازی اقلام برای لوپ نامحدود (بدون وقفه و بدون پایان)
+  // آماده‌سازی اقلام با بافر کافی برای ایجاد لوپ بی‌نهایت در هر اندازه صفحه
   const repeatedItems = useMemo(() => {
-    return [...data];
+    return [...data, ...data];
   }, [data]);
 
   return (
-    <div className="relative overflow-hidden bg-slate-950 border-y border-slate-800/80 py-1.5 select-none font-mono text-xs">
+    <div
+      dir="ltr"
+      className="relative overflow-hidden w-full bg-slate-950 border-y border-slate-800/80 py-1.5 select-none font-mono text-xs flex items-center"
+    >
+      <style>{`
+        @keyframes ticker-infinite {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .ticker-continuous-track {
+          display: flex;
+          width: max-content;
+          will-change: transform;
+          animation: ticker-infinite 65s linear infinite;
+        }
+      `}</style>
+
       {/* ماسک‌های گرادینت دو طرف جهت محو شدن پیوسته و ملایم ورودی و خروجی */}
       <div className="absolute left-0 top-0 bottom-0 w-10 sm:w-16 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent pointer-events-none z-10" />
       <div className="absolute right-0 top-0 bottom-0 w-10 sm:w-16 bg-gradient-to-l from-slate-950 via-slate-950/80 to-transparent pointer-events-none z-10" />
 
       {/* نوار پیوسته شبیه زیرنویس اخبار بازارهای مالی (Never-ending Marquee) */}
-      <div
-        dir="ltr"
-        style={{ '--ticker-duration': '50s' }}
-        className="ticker-track flex w-max animate-ticker-left"
-      >
+      <div className="ticker-continuous-track">
         {/* ست اول */}
         <div className="flex items-center shrink-0">
           {repeatedItems.map((item, idx) => (
