@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
-// لیست جامع و متنوع بازارهای مالی (بدون ایموجی و بدون آیکون)
+// لیست اختصاصی بازار فارکس، فلزات و کالاها (بدون کریپتو، بدون ایموجی و بدون آیکون)
 export const marketData = [
-  // جفت‌ارزهای اصلی فارکس
+  // جفت‌ارزهای اصلی فارکس (Majors)
   { pair: 'EUR/USD', name: 'یورو / دلار', price: 1.0852, change: 0.15, precision: 4 },
   { pair: 'GBP/USD', name: 'پوند / دلار', price: 1.2648, change: -0.22, precision: 4 },
   { pair: 'USD/JPY', name: 'دلار / ین ژاپن', price: 151.42, change: 0.35, precision: 2 },
@@ -11,26 +11,22 @@ export const marketData = [
   { pair: 'USD/CAD', name: 'دلار / دلار کانادا', price: 1.3520, change: -0.18, precision: 4 },
   { pair: 'NZD/USD', name: 'دلار نیوزیلند / دلار', price: 0.6120, change: 0.14, precision: 4 },
 
-  // جفت‌ارزهای کراس
+  // جفت‌ارزهای کراس فارکس (Crosses)
   { pair: 'EUR/GBP', name: 'یورو / پوند', price: 0.8580, change: 0.32, precision: 4 },
   { pair: 'EUR/JPY', name: 'یورو / ین ژاپن', price: 164.35, change: 0.48, precision: 2 },
   { pair: 'GBP/JPY', name: 'پوند / ین ژاپن', price: 191.50, change: 0.12, precision: 2 },
+  { pair: 'AUD/JPY', name: 'دلار استرالیا / ین', price: 99.65, change: 0.21, precision: 2 },
+  { pair: 'EUR/CHF', name: 'یورو / فرانک', price: 0.9610, change: -0.05, precision: 4 },
+  { pair: 'GBP/CHF', name: 'پوند / فرانک', price: 1.1180, change: -0.15, precision: 4 },
 
-  // کالاها و فلزات گرانبها
+  // فلزات گرانبها و کالاها (Commodities & Metals)
   { pair: 'XAU/USD', name: 'طلای جهانی', price: 2165.40, change: 0.65, precision: 2 },
   { pair: 'XAG/USD', name: 'نقره جهانی', price: 24.85, change: 1.12, precision: 2 },
   { pair: 'BRENT', name: 'نفت برنت', price: 83.45, change: -0.75, precision: 2 },
   { pair: 'WTI', name: 'نفت تگزاس', price: 79.20, change: -0.62, precision: 2 },
 
-  // ارزهای دیجیتال
-  { pair: 'BTC/USD', name: 'بیت‌کوین', price: 67420, change: 2.85, precision: 2 },
-  { pair: 'ETH/USD', name: 'اتریوم', price: 3580.50, change: 3.42, precision: 2 },
-  { pair: 'SOL/USD', name: 'سولانا', price: 148.60, change: 5.18, precision: 2 },
-
-  // شاخص‌های مالی
+  // شاخص دلار آمریکا
   { pair: 'DXY', name: 'شاخص دلار', price: 103.85, change: 0.08, precision: 2 },
-  { pair: 'US500', name: 'اس‌اندپی ۵۰۰', price: 5120.30, change: 0.45, precision: 2 },
-  { pair: 'NAS100', name: 'نزدک ۱۰۰', price: 18150.80, change: 0.72, precision: 2 },
 ];
 
 export default function MarketTicker() {
@@ -52,15 +48,13 @@ export default function MarketTicker() {
 
           const isUp = Math.random() > 0.48;
           const deltaSign = isUp ? 1 : -1;
-          const volatility = item.pair.includes('BTC') || item.pair.includes('ETH') || item.pair.includes('SOL')
-            ? 0.0008
-            : item.pair.includes('XAU') || item.pair.includes('BRENT') || item.pair.includes('WTI')
-            ? 0.0005
-            : 0.0002;
+          const volatility = item.pair.includes('XAU') || item.pair.includes('BRENT') || item.pair.includes('WTI')
+            ? 0.0004
+            : 0.00015;
 
           const priceDelta = item.price * volatility * (Math.random() * 0.7 + 0.3) * deltaSign;
           const newPrice = Math.max(0.0001, item.price + priceDelta);
-          const newChange = Number((item.change + deltaSign * (Math.random() * 0.04)).toFixed(2));
+          const newChange = Number((item.change + deltaSign * (Math.random() * 0.03)).toFixed(2));
 
           return {
             ...item,
@@ -99,7 +93,7 @@ export default function MarketTicker() {
           display: flex;
           width: max-content;
           will-change: transform;
-          animation: ticker-infinite 65s linear infinite;
+          animation: ticker-infinite 160s linear infinite;
         }
       `}</style>
 
