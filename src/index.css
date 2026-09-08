@@ -86,3 +86,36 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes ticker-scroll-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes ticker-scroll-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-ticker-left {
+  animation: ticker-scroll-left var(--ticker-duration, 55s) linear infinite;
+  will-change: transform;
+}
+
+.animate-ticker-right {
+  animation: ticker-scroll-right var(--ticker-duration, 55s) linear infinite;
+  will-change: transform;
+}
+
+.ticker-track:hover,
+.ticker-paused {
+  animation-play-state: paused !important;
+}
