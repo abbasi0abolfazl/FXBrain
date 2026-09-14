@@ -1,0 +1,62 @@
+name: Quality Gates
+
+on:
+  push:
+    branches:
+      - "automation/**"
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  quality-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm test --if-present
+
+      - name: HTTP smoke test primary routes
+        shell: bash
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/fxbrain-vite-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error http://127.0.0.1:4173/ >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          routes=(/login / /News /Calendar /Charts /Signals /PaperTrading /Backtest /Alerts /Account)
+          for route in "${routes[@]}"; do
+            echo "Checking ${route}"
+            curl --fail --silent --show-error "http://127.0.0.1:4173${route}" >/dev/null
+          done
