@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { MARKET_STALE_AFTER_SECONDS, normalizeTwelveDataQuote } from '../worker.js';
+import { MARKET_STALE_AFTER_SECONDS, normalizeTwelveDataQuote, quoteAgeSeconds } from '../worker.js';
 
 const fetchedAt = '2026-09-15T06:00:00.000Z';
 
@@ -32,4 +32,15 @@ test('does not fabricate freshness without a provider timestamp', () => {
 
 test('rejects malformed provider responses', () => {
   assert.throws(() => normalizeTwelveDataQuote({ status: 'error', message: 'quota exceeded' }, fetchedAt), /quota exceeded/);
+});
+
+test('effective age advances after fetch and cached quotes become stale', () => {
+  const quote = normalizeTwelveDataQuote({ close: '1.15', last_quote_at: '2026-09-15T05:59:18.000Z' }, fetchedAt);
+  assert.equal(quoteAgeSeconds(quote, Date.parse('2026-09-15T06:01:20.000Z')), 122);
+  assert.equal(quoteAgeSeconds(quote, Date.parse('2026-09-15T06:02:20.000Z')), 182);
+});
+
+test('negative clock skew clamps effective age to zero', () => {
+  const quote = normalizeTwelveDataQuote({ close: '1.15', last_quote_at: '2026-09-15T06:00:30.000Z' }, fetchedAt);
+  assert.equal(quoteAgeSeconds(quote, Date.parse(fetchedAt)), 0);
 });

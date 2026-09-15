@@ -11,6 +11,11 @@ export default {
 const CACHE_TTL = 60;
 export const MARKET_STALE_AFTER_SECONDS = 180;
 
+export function quoteAgeSeconds(quote, now = Date.now()) {
+  const timestamp = Date.parse(quote?.timestamp || '');
+  return Number.isFinite(timestamp) ? Math.max(0, Math.floor((now - timestamp) / 1000)) : null;
+}
+
 function providerTimestamp(data) {
   const candidates = [data.last_quote_at, data.timestamp, data.datetime];
   for (const candidate of candidates) {
