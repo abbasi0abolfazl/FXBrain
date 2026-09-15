@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export default function StatsCard({ title, value, icon: Icon, color = 'blue', trend }) {
+export default function StatsCard({ title, value, icon: Icon, color = 'blue', trend = undefined }) {
   const iconColor = color === 'green' ? 'text-emerald-400' : color === 'orange' ? 'text-amber-400' : 'text-slate-400';
 
   return (

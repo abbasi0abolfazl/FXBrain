@@ -14,7 +14,7 @@ export default function MarketTicker() {
         <span className="text-base font-semibold tabular-nums text-white">{quote.price.toFixed(5)}</span>
         <span className={positive ? 'text-emerald-400' : 'text-rose-400'}>{positive ? '+' : ''}{quote.changePct.toFixed(2)}%</span>
         <span className={`rounded px-1.5 py-0.5 text-[10px] uppercase ${quote.stale ? 'bg-amber-500/15 text-amber-300' : quote.mode === 'live' ? 'bg-emerald-500/15 text-emerald-300' : 'bg-slate-700 text-slate-300'}`}>{quote.stale ? 'STALE' : quote.mode}</span>
-        <span className="text-slate-500">Source: {quote.source} · Updated: {age == null ? '—' : `${age}s ago`}</span>
+        <span className="text-slate-500">Source: {quote.source} · {quote.stale ? 'Last quote' : 'Updated'}: {age == null ? 'unknown' : age < 60 ? `${age}s ago` : `${Math.floor(age / 60)}m ago`}</span>
       </>}
       <button type="button" onClick={() => refetch()} disabled={isFetching} aria-label="Refresh market data" className="ml-auto rounded p-1 text-slate-500 hover:bg-slate-800 hover:text-slate-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"><RefreshCw className={`h-3.5 w-3.5 ${isFetching ? 'animate-spin' : ''}`} /></button>
     </div>

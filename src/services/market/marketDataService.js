@@ -18,7 +18,8 @@ export function normalizeMarketQuote(value) {
     fetchedAt: value.fetchedAt || new Date().toISOString(),
     source: value.source || 'unknown',
     mode: value.mode || MARKET_MODES.UNKNOWN,
-    stale: Boolean(value.stale),
+    ageSeconds: value.ageSeconds ?? null,
+    stale: value.ageSeconds == null ? Boolean(value.stale) : Boolean(value.stale),
     delaySeconds: value.delaySeconds ?? null,
   };
 }
@@ -31,6 +32,8 @@ export async function getMarketQuote(symbol = 'EUR/USD', signal) {
 }
 
 export function quoteAgeSeconds(quote, now = Date.now()) {
-  const value = Date.parse(quote?.fetchedAt || quote?.timestamp || '');
-  return Number.isFinite(value) ? Math.max(0, Math.floor((now - value) / 1000)) : null;
+  if (Number.isFinite(quote?.ageSeconds)) return quote.ageSeconds;
+  const value = Date.parse(quote?.timestamp || '');
+  const fetched = Date.parse(quote?.fetchedAt || '');
+  return Number.isFinite(value) && Number.isFinite(fetched) ? Math.max(0, Math.floor((fetched - value) / 1000)) : null;
 }

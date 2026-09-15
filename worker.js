@@ -9,6 +9,40 @@ export default {
 };
 
 const CACHE_TTL = 60;
+export const MARKET_STALE_AFTER_SECONDS = 180;
+
+function providerTimestamp(data) {
+  const candidates = [data.last_quote_at, data.timestamp, data.datetime];
+  for (const candidate of candidates) {
+    if (candidate === undefined || candidate === null || candidate === '') continue;
+    const numeric = Number(candidate);
+    const parsed = Number.isFinite(numeric) ? new Date(numeric < 1e12 ? numeric * 1000 : numeric) : new Date(candidate);
+    if (!Number.isNaN(parsed.getTime())) return parsed.toISOString();
+  }
+  return null;
+}
+
+export function normalizeTwelveDataQuote(data, fetchedAt = new Date().toISOString()) {
+  if (!data || data.status === 'error' || !Number.isFinite(Number(data.close))) {
+    throw new Error(data?.message || 'Malformed provider response');
+  }
+  const timestamp = providerTimestamp(data);
+  const fetchedMs = Date.parse(fetchedAt);
+  const timestampMs = timestamp ? Date.parse(timestamp) : NaN;
+  const ageSeconds = Number.isFinite(fetchedMs) && Number.isFinite(timestampMs)
+    ? Math.max(0, Math.floor((fetchedMs - timestampMs) / 1000))
+    : null;
+  const price = Number(data.close);
+  const previous = Number(data.previous_close);
+  const change = Number.isFinite(previous) ? price - previous : 0;
+  return {
+    symbol: data.symbol || 'EUR/USD', price, change,
+    changePct: Number.isFinite(previous) && previous ? (change / previous) * 100 : 0,
+    timestamp, fetchedAt, source: 'twelve-data', mode: 'live',
+    ageSeconds, stale: ageSeconds === null || ageSeconds > MARKET_STALE_AFTER_SECONDS,
+    delaySeconds: null,
+  };
+}
 
 async function marketQuote(request, env, url) {
   const symbol = url.searchParams.get('symbol') || 'EUR/USD';
@@ -28,11 +62,7 @@ async function marketQuote(request, env, url) {
     const response = await fetch(providerUrl, { signal: AbortSignal.timeout(8000) });
     if (!response.ok) throw new Error(`Provider HTTP ${response.status}`);
     const data = await response.json();
-    if (data.status === 'error' || !Number.isFinite(Number(data.close))) throw new Error(data.message || 'Malformed provider response');
-    const price = Number(data.close);
-    const previous = Number(data.previous_close);
-    const change = Number.isFinite(previous) ? price - previous : 0;
-    const quote = { symbol: 'EUR/USD', price, change, changePct: Number.isFinite(previous) && previous ? (change / previous) * 100 : 0, timestamp: data.datetime ? new Date(data.datetime).toISOString() : new Date().toISOString(), fetchedAt: new Date().toISOString(), source: 'twelve-data', mode: 'live', stale: false, delaySeconds: null };
+    const quote = normalizeTwelveDataQuote(data, new Date().toISOString());
     const result = new Response(JSON.stringify({ quote }), { headers: { 'content-type': 'application/json', 'cache-control': `public, max-age=${CACHE_TTL}` } });
     await cache.put(cacheKey, result.clone());
     return result;
