@@ -3,10 +3,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { 
   Settings, Plus, Check, X, Newspaper, Calendar, Bell, 
-  LineChart, LayoutGrid, Grip, Zap, Clock
+  LineChart, LayoutGrid, Zap
 } from 'lucide-react';
 import MarketTicker from '@/components/dashboard/MarketTicker';
 import DashboardWidget from '@/components/dashboard/DashboardWidget';
@@ -16,7 +15,6 @@ import AlertsWidget from '@/components/dashboard/widgets/AlertsWidget';
 import ChartWidget from '@/components/dashboard/widgets/ChartWidget';
 import SignalsWidget from '@/components/dashboard/widgets/SignalsWidget';
 import StatsCard from '@/components/dashboard/StatsCard';
-import moment from 'moment';
 import { API_BASE_URL } from '@/config/api';
 
 
@@ -209,26 +207,19 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-slate-950">
       <MarketTicker />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
+        <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/30">
-                <LayoutGrid className="w-7 h-7 text-blue-400" />
-              </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                <h1 className="text-2xl font-semibold text-white">
                   {pageConfig.pageTitle || 'داشبورد معاملاتی'}
                 </h1>
-                <p className="text-slate-400 text-sm">
+                  <p className="text-slate-500 text-sm">
                   {pageConfig.pageSubtitle || 'نمایش خلاصه‌ای از وضعیت بازار، سیگنال‌ها و هشدارها'}
                 </p>
               </div>
@@ -249,7 +240,7 @@ export default function Dashboard() {
                   <Button
                     onClick={handleSave}
                     disabled={saveMutation.isPending}
-                    className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-lg shadow-emerald-500/20"
+                    className="rounded-md bg-emerald-700 hover:bg-emerald-600 text-white"
                   >
                     {saveMutation.isPending ? (
                       <>
@@ -267,7 +258,7 @@ export default function Dashboard() {
               ) : (
                 <Button
                   onClick={() => setIsEditing(true)}
-                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-500/20"
+                  className="rounded-md bg-blue-600 hover:bg-blue-500 text-white"
                 >
                   <Settings className="w-4 h-4 ml-2" />
                   {pageConfig.editButton || 'ویرایش داشبورد'}
@@ -277,42 +268,34 @@ export default function Dashboard() {
           </div>
 
           {/* Stats Cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4"
-          >
+          <div className="grid grid-cols-2 gap-x-8 gap-y-2 border-y border-slate-800 md:grid-cols-4">
             <StatsCard
               title="سیگنال‌های فعال"
               value={stats?.active_signals || 0}
               icon={Zap}
               color="orange"
-              trend={12}
             />
             <StatsCard
               title="رویدادهای امروز"
               value={stats?.today_events || 0}
               icon={Calendar}
               color="blue"
-              trend={-5}
             />
             <StatsCard
               title="هشدارهای فعال"
               value={stats?.active_alerts || 0}
               icon={Bell}
               color="purple"
-              trend={8}
             />
             <StatsCard
               title="اخبار مهم"
               value={stats?.important_news || 0}
               icon={Newspaper}
               color="green"
-              trend={15}
             />
-          </motion.div>
-        </motion.div>
+          </div>
+          <p className="mt-3 text-xs text-slate-500">Market quote provenance is shown above. Other dashboard modules are currently DEMO data.</p>
+        </div>
 
         {/* Widget Selector (when editing) */}
         <AnimatePresence>
@@ -340,7 +323,7 @@ export default function Dashboard() {
                         size="sm"
                         className={`rounded-lg transition-all duration-200 ${
                           isActive
-                            ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/20 hover:from-blue-700 hover:to-blue-800'
+                          ? 'bg-blue-600 text-white hover:bg-blue-500'
                             : 'border-slate-700 bg-slate-800/40 text-slate-300 hover:bg-slate-700/60 hover:text-white hover:border-slate-600'
                         }`}
                       >
@@ -414,7 +397,7 @@ export default function Dashboard() {
             animate={{ opacity: 1 }}
             className="text-center py-20"
           >
-            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 flex items-center justify-center">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center">
               <LayoutGrid className="w-8 h-8 sm:w-10 sm:h-10 text-slate-600" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">
@@ -425,7 +408,7 @@ export default function Dashboard() {
             </p>
             <Button
               onClick={() => setIsEditing(true)}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-500/20"
+              className="rounded-md bg-blue-600 hover:bg-blue-500 text-white"
             >
               <Plus className="w-4 h-4 ml-2" />
               {pageConfig.addWidgetButton || 'افزودن ویجت'}

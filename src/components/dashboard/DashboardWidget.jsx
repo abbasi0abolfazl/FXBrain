@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { GripVertical, X, Maximize2, Minimize2 } from 'lucide-react';
+import { GripVertical, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function DashboardWidget({ 
@@ -16,19 +16,19 @@ export default function DashboardWidget({
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={false}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.2 }}
-      className={`h-full rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-800/30 border overflow-hidden ${
+      transition={{ duration: 0.1 }}
+      className={`h-full rounded-lg bg-slate-900 border overflow-hidden ${
         isEditing 
           ? 'border-blue-500/50 ring-2 ring-blue-500/20' 
-          : 'border-slate-700/50 hover:border-slate-600/50'
-      } transition-all duration-300`}
+          : 'border-slate-800'
+      }`}
       style={{ minHeight }}
     >
       {/* Widget Header */}
-      <div className="flex items-center justify-between p-4 border-b border-slate-700/50 bg-slate-800/30">
+      <div className="flex items-center justify-between p-3 border-b border-slate-800">
         <div className="flex items-center gap-3">
           {isEditing && dragHandleProps && (
             <div 
@@ -40,11 +40,7 @@ export default function DashboardWidget({
           )}
           
           {Icon && (
-            <div className={`p-1.5 rounded-lg ${
-              isEditing 
-                ? 'bg-blue-500/20 text-blue-400' 
-                : 'bg-slate-700/50 text-slate-400'
-            }`}>
+            <div className="text-slate-400">
               <Icon className="w-4 h-4" />
             </div>
           )}
