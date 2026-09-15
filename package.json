@@ -9,6 +9,7 @@
     "lint": "eslint . --quiet",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc -p ./jsconfig.json",
+    "test": "node --test test/market-data.test.js",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -98,4 +99,3 @@
     "vite": "^6.1.0"
   }
 }
-

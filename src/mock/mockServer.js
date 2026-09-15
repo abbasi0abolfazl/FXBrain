@@ -62,6 +62,13 @@ export function initMockApi() {
       const pathname = urlObj.pathname;
       const searchParams = urlObj.searchParams;
 
+      if (pathname === '/api/market/quote') {
+        const symbol = searchParams.get('symbol') || 'EUR/USD';
+        if (symbol.toUpperCase() !== 'EUR/USD') return jsonResponse({ error: 'Only EUR/USD is enabled in demo mode.' }, 400);
+        const fetchedAt = new Date().toISOString();
+        return jsonResponse({ quote: { symbol: 'EUR/USD', price: 1.0852, change: 0.0021, changePct: 0.19, timestamp: null, fetchedAt, source: 'standalone-mock', mode: 'demo', ageSeconds: null, stale: true, delaySeconds: null } });
+      }
+
       // ================= AUTH =================
       if (pathname.includes('/api/auth/login')) {
         let body = {};
